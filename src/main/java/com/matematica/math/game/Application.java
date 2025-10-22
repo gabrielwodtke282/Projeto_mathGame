@@ -17,5 +17,4 @@ public class Application {
             SC.next();
         }
 	}
-
 }
