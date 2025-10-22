@@ -20,8 +20,7 @@ import java.util.Scanner;
 public class Application {
 
     private static Scanner SC =  new Scanner(System.in);
-    private static PerguntasService perguntasService;
-    private static RankingService rankingService;
+    private PerguntasService perguntasService;
     private static CalculoRanking calculoRanking;
     private static String nome;
 
@@ -30,7 +29,7 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 
         while (true) {
-            System.out.println("=== MENU PRINCIPAL ===\nOpções:\n1 - DIFICULDADE Fácil\n2 - DIFICULDADE Médio\n3 - DIFICULDADE Difícil\n4 - Sair do Sistema\nEscolha:");
+            System.out.println("=== MENU PRINCIPAL ===\nOpções:\n1 - Dificuldade Fácil\n2 - Dificuldade Médio\n3 - Dificuldade Difícil\n4 - Sair do Sistema\nEscolha:");
             switch (entrada()) {
                 case "1" -> facil();
                 case "2" -> medio();
@@ -45,7 +44,7 @@ public class Application {
         }
 	}
 
-    public static void facil(){
+    public void facil(){
         while (true) {
             Dificuldade dificuldade = Dificuldade.FACIL;
             System.out.println("=== MENU DIFICULDADE FÁCIL ===\nEscolha a Opção:\n1 - Jogar\n2 - Ranking\n3 - Voltar ao Menu Principal\nEscolha:");
@@ -62,7 +61,7 @@ public class Application {
         }
     }
 
-    public static void medio(){
+    public void medio(){
         while (true) {
             Dificuldade dificuldade = Dificuldade.MEDIO;
             System.out.println("=== MENU DIFICULDADE MÉDIA ===\nEscolha a Opção:\n1 - Jogar\n2 - Ranking\n3 - Voltar ao Menu Principal\nEscolha:");
@@ -79,7 +78,7 @@ public class Application {
         }
     }
 
-    public static void dificil(){
+    public void dificil(){
         while (true) {
             Dificuldade dificuldade = Dificuldade.DIFICIL;
             System.out.println("=== MENU DIFICULDADE DIFÍCIL ===\nEscolha a Opção:\n1 - Jogar\n2 - Ranking\n3 - Voltar ao Menu Principal\nEscolha:");
@@ -96,7 +95,7 @@ public class Application {
         }
     }
 
-    public static void jogar(Dificuldade dificuldade){
+    public void jogar(Dificuldade dificuldade){
         List<Pergunta> perguntas = perguntasService.buscar10PerguntasDificuldade(dificuldade);
 
         int acertos = 0;
@@ -151,8 +150,8 @@ public class Application {
         System.out.println("\n");
     }
 
-    public static void ranking(Dificuldade dificuldade){
-        List<Ranking> rankings = rankingService.buscarRanking(dificuldade);
+    public void ranking(Dificuldade dificuldade){
+        List<Ranking> rankings = buscarRanking(dificuldade);
         System.out.println("Ranking Dificuldade "+dificuldade+":\nPosição\tNome\tAcertos\nTempo");
         for (Ranking ranking : rankings) {
             System.out.println(ranking.getPosicao()+"\t"+ranking.getNome()+"\t"+ ranking.getAcertos()+"/10\t"+ranking.getTempo()/1000+"s");

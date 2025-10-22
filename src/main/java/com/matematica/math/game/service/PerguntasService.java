@@ -22,22 +22,23 @@ public class PerguntasService {
     }
 
     public List<Pergunta> buscar10PerguntasDificuldade(Dificuldade dificuldade) {
+        List<Pergunta> perguntasBase = perguntasRepository.findAllByDificuldade(dificuldade);
         List<Pergunta> perguntas = new ArrayList<>();
-        List<Long> perguntasId = idsPerguntas(dificuldade);
+        List<Integer> perguntasId = idsPerguntas(dificuldade);
         for (int i = 0; i < 10; i++) {
-            perguntas.add(perguntasRepository.getPerguntaById(perguntasId.get(i)));
+            perguntas.add(perguntasBase.get(i));
         }
         return perguntas;
     }
 
-    public List<Long> idsPerguntas(Dificuldade dificuldade) {
+    public List<Integer> idsPerguntas(Dificuldade dificuldade) {
         Random random = new Random();
-        List<Long> ids = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
         if (dificuldade.equals(Dificuldade.FACIL)) {
             for (int i = 0; i < 10; i++) {
                 boolean repete = true;
                 while (repete){
-                    long num = random.nextLong(1,30);
+                    int num = random.nextInt(1,30);
 
                     if (!ids.contains(num)) {
                         ids.add(num);
@@ -49,7 +50,7 @@ public class PerguntasService {
             for (int i = 0; i < 10; i++) {
                 boolean repete = true;
                 while (repete){
-                    long num = random.nextLong(31, 60);
+                    int num = random.nextInt(31, 60);
                     if (!ids.contains(num)) {
                         ids.add(num);
                         repete = false;
@@ -60,7 +61,7 @@ public class PerguntasService {
             for (int i = 0; i < 10; i++) {
                 boolean repete = true;
                 while (repete){
-                    long num = random.nextLong(61, 90);
+                    int num = random.nextInt(61, 90);
                     if (!ids.contains(num)) {
                         ids.add(num);
                         repete = false;

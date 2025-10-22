@@ -15,7 +15,7 @@ public class RankingService {
     private RankingRepository rankingRepository;
 
     public List<Ranking> buscarRanking(Dificuldade dificuldade) {
-        return rankingRepository.getPerguntasByDificuldadeOrderByPosicaoDesc(dificuldade);
+        return rankingRepository.getPerguntasByDificuldade(dificuldade);
     }
 
     public void saveRanking(List<Ranking> rankings) {

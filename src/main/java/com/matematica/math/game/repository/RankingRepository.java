@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface RankingRepository extends JpaRepository<Ranking, Long> {
 
-    List<Ranking> getPerguntasByDificuldadeOrderByPosicaoDesc(Dificuldade dificuldade);
+    List<Ranking> getPerguntasByDificuldade(Dificuldade dificuldade);
 }

@@ -26,6 +26,7 @@ public class Pergunta {
     private String D;
 
     private String alternativaCerta;
+
     private Dificuldade dificuldade;
 
     public Pergunta(PerguntaRequest pergunta) {
@@ -35,7 +36,6 @@ public class Pergunta {
         this.C = pergunta.C();
         this.D = pergunta.D();
         this.alternativaCerta = pergunta.alternativaCerta();
-        Dificuldade dificuldade1 = Dificuldade.valueOf(pergunta.dificuldade());
-        this.dificuldade = dificuldade1;
+        this.dificuldade = Dificuldade.valueOf(pergunta.dificuldade());
     }
 }
