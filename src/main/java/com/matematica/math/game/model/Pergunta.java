@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Perguntas {
+public class Pergunta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +27,15 @@ public class Perguntas {
 
     private String alternativaCerta;
     private Dificuldade dificuldade;
+
+    public Pergunta(PerguntaRequest pergunta) {
+        this.pergunta = pergunta.pergunta();
+        this.A = pergunta.A();
+        this.B = pergunta.B();
+        this.C = pergunta.C();
+        this.D = pergunta.D();
+        this.alternativaCerta = pergunta.alternativaCerta();
+        Dificuldade dificuldade1 = Dificuldade.valueOf(pergunta.dificuldade());
+        this.dificuldade = dificuldade1;
+    }
 }
