@@ -21,7 +21,6 @@ public class Inicio implements CommandLineRunner {
     private final PerguntasService perguntasService;
     private final RankingService rankingService;
     private final Calculo calculo;
-    private String nome;
 
     @Autowired
     public Inicio(PerguntasService perguntasService, RankingService rankingService, Calculo calculo) {
@@ -30,31 +29,26 @@ public class Inicio implements CommandLineRunner {
         this.calculo = calculo;
     }
 
-
-
     public void start() {
+        String nome = definirNome();
         while (true) {
-            nome = definirNome();
             System.out.println("=== MENU PRINCIPAL ===\nOpções:\n1 - Dificuldade Fácil\n2 - Dificuldade Médio\n3 - Dificuldade Difícil\n4 - Sair do Sistema\nEscolha:");
             switch (entrada()) {
-                case "1" -> facil();
-                case "2" -> medio();
-                case "3" -> dificil();
-                case "4" -> {
-                    System.exit(0);
-                }
-                default -> {
-                    System.out.println("Entrada Inválida!");
-                }
+                case "1" -> facil(nome);
+                case "2" -> medio(nome);
+                case "3" -> dificil(nome);
+                case "4" -> System.exit(0);
+                default -> System.out.println("Entrada Inválida!");
             }
         }
     }
 
     public String definirNome() {
         boolean valido = true;
+        String nome = "";
         while (valido) {
             System.out.println("Digite seu nome:");
-            String nome = SC.nextLine().trim();
+            nome = SC.nextLine().trim();
             if (!nome.isEmpty()) {
                 valido = false;
             }
@@ -62,12 +56,12 @@ public class Inicio implements CommandLineRunner {
         return nome;
     }
 
-    public void facil(){
+    public void facil(String nome){
         while (true) {
             Dificuldade dificuldade = Dificuldade.FACIL;
             System.out.println("=== MENU DIFICULDADE FÁCIL ===\nEscolha a Opção:\n1 - Jogar\n2 - Ranking\n3 - Voltar ao Menu Principal\nEscolha:");
             switch (entrada()) {
-                case "1" -> jogar(dificuldade);
+                case "1" -> jogar(dificuldade, nome);
                 case "2" -> ranking(dificuldade);
                 case "3" -> {
                     return;
@@ -79,12 +73,12 @@ public class Inicio implements CommandLineRunner {
         }
     }
 
-    public void medio(){
+    public void medio(String nome){
         while (true) {
             Dificuldade dificuldade = Dificuldade.MEDIO;
             System.out.println("=== MENU DIFICULDADE MÉDIA ===\nEscolha a Opção:\n1 - Jogar\n2 - Ranking\n3 - Voltar ao Menu Principal\nEscolha:");
             switch (entrada()) {
-                case "1" -> jogar(dificuldade);
+                case "1" -> jogar(dificuldade, nome);
                 case "2" -> ranking(dificuldade);
                 case "3" -> {
                     return;
@@ -96,12 +90,12 @@ public class Inicio implements CommandLineRunner {
         }
     }
 
-    public void dificil(){
+    public void dificil(String nome){
         while (true) {
             Dificuldade dificuldade = Dificuldade.DIFICIL;
             System.out.println("=== MENU DIFICULDADE DIFÍCIL ===\nEscolha a Opção:\n1 - Jogar\n2 - Ranking\n3 - Voltar ao Menu Principal\nEscolha:");
             switch (entrada()) {
-                case "1" -> jogar(dificuldade);
+                case "1" -> jogar(dificuldade, nome);
                 case "2" -> ranking(dificuldade);
                 case "3" -> {
                     return;
@@ -113,7 +107,7 @@ public class Inicio implements CommandLineRunner {
         }
     }
 
-    public void jogar(Dificuldade dificuldade){
+    public void jogar(Dificuldade dificuldade, String nome){
         List<Pergunta> perguntas = perguntasService.buscar10PerguntasDificuldade(dificuldade);
 
         int acertos = 0;
