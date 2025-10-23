@@ -1,6 +1,6 @@
 package com.matematica.math.game;
 
-import com.matematica.math.game.calculo.CalculoRanking;
+import com.matematica.math.game.calculo.Calculo;
 import com.matematica.math.game.model.Dificuldade;
 import com.matematica.math.game.model.Pergunta;
 import com.matematica.math.game.model.Ranking;
@@ -20,29 +20,21 @@ public class Inicio implements CommandLineRunner {
     private static final Scanner SC =  new Scanner(System.in);
     private final PerguntasService perguntasService;
     private final RankingService rankingService;
-    private final CalculoRanking calculoRanking;
-    private final String nome;
+    private final Calculo calculo;
+    private String nome;
 
     @Autowired
-    public Inicio(PerguntasService perguntasService, RankingService rankingService, CalculoRanking calculoRanking) {
+    public Inicio(PerguntasService perguntasService, RankingService rankingService, Calculo calculo) {
         this.perguntasService = perguntasService;
         this.rankingService = rankingService;
-        this.calculoRanking = calculoRanking;
-        this.nome = inserirNome();
+        this.calculo = calculo;
     }
 
-    public String inserirNome(){
-        while(true) {
-            System.out.println("Insira seu Nome:");
-            String nome = SC.nextLine().trim();
-            if (!nome.isEmpty()) {
-                return nome;
-            }
-        }
-    }
+
 
     public void start() {
         while (true) {
+            nome = definirNome();
             System.out.println("=== MENU PRINCIPAL ===\nOpções:\n1 - Dificuldade Fácil\n2 - Dificuldade Médio\n3 - Dificuldade Difícil\n4 - Sair do Sistema\nEscolha:");
             switch (entrada()) {
                 case "1" -> facil();
@@ -56,6 +48,18 @@ public class Inicio implements CommandLineRunner {
                 }
             }
         }
+    }
+
+    public String definirNome() {
+        boolean valido = true;
+        while (valido) {
+            System.out.println("Digite seu nome:");
+            String nome = SC.nextLine().trim();
+            if (!nome.isEmpty()) {
+                valido = false;
+            }
+        }
+        return nome;
     }
 
     public void facil(){
@@ -113,11 +117,13 @@ public class Inicio implements CommandLineRunner {
         List<Pergunta> perguntas = perguntasService.buscar10PerguntasDificuldade(dificuldade);
 
         int acertos = 0;
-        int numeroPergunta = 1;
+        int numeroPergunta = 0;
         long inicio = System.currentTimeMillis();
         for (Pergunta pergunta : perguntas) {
             boolean feito = false;
+            numeroPergunta++;
             while (!feito) {
+                System.out.println("\n");
                 System.out.println("Pergunta " + numeroPergunta);
                 System.out.println(pergunta.getPergunta());
                 System.out.println("Alternativas:");
@@ -172,16 +178,23 @@ public class Inicio implements CommandLineRunner {
         }
         long fim =  System.currentTimeMillis();
         long tempo = fim - inicio;
-        calculoRanking.calculoRankings(dificuldade, new RankingRequest(nome, dificuldade, acertos, tempo));
+        calculo.calculoRankings(dificuldade, new RankingRequest(nome, dificuldade, acertos, tempo));
+        System.out.println("\n");
+        System.out.println("Acertos: " + acertos+"/10; Tempo: " + tempo/1000 + "s");
         System.out.println("\n");
     }
 
     public void ranking(Dificuldade dificuldade){
         List<Ranking> rankings = rankingService.buscarRanking(dificuldade);
-        System.out.println("Ranking Dificuldade "+dificuldade+":\nPosição\tNome\tAcertos\nTempo");
-        for (Ranking ranking : rankings) {
-            System.out.println(ranking.getPosicao()+"\t"+ranking.getNome()+"\t"+ ranking.getAcertos()+"/10\t"+ranking.getTempo()/1000+"s");
+        if (rankings.isEmpty()){
+            System.out.println("Nenhuma tentativa de Jogo registrada");
+        } else {
+            System.out.println("Ranking Dificuldade "+dificuldade+":\nP°\tNome\tAcertos\tTempo");
+            for (Ranking ranking : rankings) {
+                System.out.println(ranking.getPosicao()+"\t"+ranking.getNome()+"\t"+ ranking.getAcertos()+"/10\t"+ranking.getTempo()/1000+"s");
+            }
         }
+        System.out.println("\n");
     }
 
     public static String entrada(){

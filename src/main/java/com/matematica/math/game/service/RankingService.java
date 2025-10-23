@@ -15,10 +15,23 @@ public class RankingService {
     private RankingRepository rankingRepository;
 
     public List<Ranking> buscarRanking(Dificuldade dificuldade) {
-        return rankingRepository.getPerguntasByDificuldade(dificuldade);
+        return rankingRepository.getAllByDificuldadeOrderByPosicaoAsc(dificuldade);
     }
 
-    public void saveRanking(List<Ranking> rankings) {
-        rankingRepository.saveAll(rankings);
+    public Ranking saveRanking(Ranking ranking) {
+        return rankingRepository.save(ranking);
+    }
+
+    public Ranking updateRanking(int posicao, Ranking ranking) {
+        ranking.setPosicao(posicao);
+        return rankingRepository.save(ranking);
+    }
+
+    public void deleteRanking(Ranking ranking) {
+        rankingRepository.delete(ranking);
+    }
+
+    public void saveListRanking(List<Ranking> listRanking) {
+        rankingRepository.saveAll(listRanking);
     }
 }

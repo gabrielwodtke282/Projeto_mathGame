@@ -33,11 +33,11 @@ public class Ranking {
     @Enumerated(EnumType.STRING)
     private Dificuldade dificuldade;
 
-    public Ranking(int posicao, String nome, int acertos, double tempo,  Dificuldade dificuldade) {
+    public Ranking(int posicao, RankingRequest rankingRequest) {
         this.posicao = posicao;
-        this.nome = nome;
-        this.acertos = acertos;
-        this.tempo = tempo;
-        this.dificuldade = dificuldade;
+        this.nome = rankingRequest.nome();
+        this.acertos = rankingRequest.acertos();
+        this.tempo = rankingRequest.tempo();
+        this.dificuldade = rankingRequest.dificuldade();
     }
 }
