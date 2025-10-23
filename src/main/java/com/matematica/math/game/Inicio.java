@@ -172,6 +172,7 @@ public class Inicio implements CommandLineRunner {
         }
         long fim =  System.currentTimeMillis();
         long tempo = fim - inicio;
+        System.out.println("Processando as Respostas...");
         calculo.calculoRankings(dificuldade, new RankingRequest(nome, dificuldade, acertos, tempo));
         System.out.println("\n");
         System.out.println("Acertos: " + acertos+"/10; Tempo: " + tempo/1000 + "s");
