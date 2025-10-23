@@ -24,54 +24,26 @@ public class PerguntasService {
     public List<Pergunta> buscar10PerguntasDificuldade(Dificuldade dificuldade) {
         List<Pergunta> perguntasBase = perguntasRepository.findAllByDificuldade(dificuldade);
         List<Pergunta> perguntas = new ArrayList<>();
-        List<Integer> perguntasId = idsPerguntas(dificuldade);
+        List<Integer> nums = numsAleatorios();
         for (int i = 0; i < 10; i++) {
-            perguntas.add(perguntasBase.get(i));
+            perguntas.add(perguntasBase.get(nums.get(i)));
         }
         return perguntas;
     }
 
-    public List<Integer> idsPerguntas(Dificuldade dificuldade) {
+    public List<Integer> numsAleatorios() {
         Random random = new Random();
-        List<Integer> ids = new ArrayList<>();
-        if (dificuldade.equals(Dificuldade.FACIL)) {
-            for (int i = 0; i < 10; i++) {
-                boolean repete = true;
-                while (repete){
-                    int num = random.nextInt(1,30);
-
-                    if (!ids.contains(num)) {
-                        ids.add(num);
-                        repete = false;
-                    }
+        List<Integer> nums = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            boolean sucesso = true;
+            while (sucesso) {
+                int num = random.nextInt(29);
+                if (!nums.contains(num)) {
+                    nums.add(num);
+                    sucesso = false;
                 }
             }
-        } else if (dificuldade.equals(Dificuldade.MEDIO)) {
-            for (int i = 0; i < 10; i++) {
-                boolean repete = true;
-                while (repete){
-                    int num = random.nextInt(31, 60);
-                    if (!ids.contains(num)) {
-                        ids.add(num);
-                        repete = false;
-                    }
-                }
-            }
-        } else if (dificuldade.equals(Dificuldade.DIFICIL)){
-            for (int i = 0; i < 10; i++) {
-                boolean repete = true;
-                while (repete){
-                    int num = random.nextInt(61, 90);
-                    if (!ids.contains(num)) {
-                        ids.add(num);
-                        repete = false;
-                    }
-                }
-            }
-        }  else {
-            System.out.println("ERRO");
-            System.exit(0);
         }
-        return ids;
+        return nums;
     }
 }

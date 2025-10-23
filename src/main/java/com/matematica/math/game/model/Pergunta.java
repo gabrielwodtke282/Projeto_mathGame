@@ -17,16 +17,26 @@ public class Pergunta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
+    @Column(name = "pergunta", nullable = false)
     private String pergunta;
 
+    @Column(name = "a", nullable = false)
     private String A;
+
+    @Column(name = "b", nullable = false)
     private String B;
+
+    @Column(name = "c", nullable = false)
     private String C;
+
+    @Column(name = "d", nullable = false)
     private String D;
 
+    @Column(name = "alternativa_certa", nullable = false)
     private String alternativaCerta;
 
+    @Column(name = "dificuldade", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Dificuldade dificuldade;
 
     public Pergunta(PerguntaRequest pergunta) {

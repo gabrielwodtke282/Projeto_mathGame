@@ -17,14 +17,20 @@ public class Ranking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "posicao", nullable = false)
     private int posicao;
 
+    @Column(name = "nome", nullable = false)
     private String nome;
 
+    @Column(name = "acertos", nullable = false)
     private int acertos;
 
+    @Column(name = "tempo", nullable = false)
     private double tempo;
 
+    @Column(name = "dificuldade", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Dificuldade dificuldade;
 
     public Ranking(int posicao, String nome, int acertos, double tempo,  Dificuldade dificuldade) {
